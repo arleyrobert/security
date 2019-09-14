@@ -1,0 +1,83 @@
+<?php
+session_start();
+ob_start();
+
+$btnCadUsuario = filter_input(INPUT_POST, 'btnCadUsuario', FILTER_SANITIZE_STRING);
+if($btnCadUsuario){
+	include_once ("conexao/conexao.php");
+	//$dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+	$nome_usuario = $_POST['nome'];
+	$senha_usuario = md5($_POST['senha']);
+	$senhaConfirma  = md5($_POST['senha_confirma']);
+	$email_usuario = $_POST['email'];
+	$result_usuario = "INSERT INTO usuarios(nome,senha,email, niveis_acesso_id, created) VALUES ('$nome_usuario','$senha_usuario','$email_usuario', 3, NOW())";
+	//var_dump($dados);
+	//$dados['senha'] = password_hash($dados['senha'], PASSWORD_DEFAULT);
+	
+	//$result_usuario = "INSERT INTO usuarios (nome, email, senha) VALUES (
+	//				'" .$dados['nome']. "',
+		//			'" .$dados['email']. "',
+			//		'" .$dados['senha']. "',
+				//	)";
+	$resultado_usario = mysqli_query($conn, $result_usuario);
+	if(mysqli_insert_id($conn)){
+		$_SESSION['msgcad'] = "Usuário cadastrado com sucesso!";
+		header("Location: entrar.php");
+	}else{
+		$_SESSION['msg'] = "Erro ao cadastrar o usuário";
+	}
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<title>Cadastrar</title>
+	</head>
+	<body class="bg-light">
+	    <div class="container">
+	    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="imagens/logo.png" alt="" width="72" height="72">
+        <h2>Fórmulario de Cadastro</h2>
+        <p class="lead"></p>
+      </div>
+
+      <div class="row">
+         
+		
+		<?php
+			if(isset($_SESSION['msg'])){
+				echo $_SESSION['msg'];
+				unset($_SESSION['msg']);
+			}
+		?>
+		<div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Informações</h4>
+		<form method="POST" action="">
+		    
+		    <div class="row">
+              <div class="col-md-6 mb-3">
+			<label>Nome</label>
+			<input type="text" name="nome" class="form-control" placeholder="Digite o nome e o sobrenome"></div></div>
+			<div class="mb-3">
+			<label>E-mail</label>
+			<input type="text" name="email" class="form-control" placeholder="Digite o seu e-mail"><br><br>
+			</div>
+			<div class="mb-3">
+			<label>Senha</label>
+			<input type="password" name="senha" class="form-control" placeholder="Digite a senha"><br><br>
+			</div>
+			<div class="mb-3">
+			<label>Confirme sua senha</label>
+			<input type="password" name="senha_confirma" class="form-control" placeholder="Digite a senha novamente"><br><br>
+			</div>
+			<hr class="mb-4">
+			<input type="submit" name="btnCadUsuario" class="btn btn-success" value="Efetuar cadastro"><br><br>
+			
+			
+		
+		</form>
+		</div>
+		</div>
+		</div>
+	</body>
+</html>
