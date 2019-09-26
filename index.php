@@ -87,8 +87,8 @@
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 social-login">
                         	<div class="social-login-buttons">
-	                        	<a class="btn btn-link-1 btn-link-1-google-plus" href="../index.php">
-	                        		<i class="fa fa-close"></i> Sair
+	                        	<a class="btn btn-link-1 btn-link-1-google-plus" href="cadastro.php">
+	                        		 Cadastrar
 	                        	</a>
                         	</div>
                         </div>
